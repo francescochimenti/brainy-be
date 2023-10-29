@@ -40,7 +40,6 @@ users.get("/users/:id", async (req, res) => {
 });
 
 // Create a user
-
 users.post("/users/create", async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(req.body.password, salt);
@@ -69,7 +68,6 @@ users.post("/users/create", async (req, res) => {
 });
 
 // Update a user
-
 users.patch("/users/update/:id", async (req, res) => {
   try {
     const user = await UserModel.findByIdAndUpdate(req.params.id, req.body, {
@@ -89,7 +87,6 @@ users.patch("/users/update/:id", async (req, res) => {
 });
 
 // Delete a user
-
 users.delete("/users/delete/:id", async (req, res) => {
   try {
     const user = await UserModel.findByIdAndDelete(req.params.id);

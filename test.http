@@ -30,3 +30,13 @@ Content-type: application/json
 ####
 
 DELETE http://localhost:5050/users/delete/653e1e6bead0bdb52e2ebd8c
+
+####
+POST http://localhost:5050/login
+Content-type: application/json
+
+{
+    "email": "test@test.it",
+    "password": "test"
+}
+
