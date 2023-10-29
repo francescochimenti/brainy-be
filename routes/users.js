@@ -3,6 +3,45 @@ const users = express.Router();
 const UserModel = require("../models/user");
 const bcrypt = require("bcrypt");
 
+const multer = require("multer");
+const cloudinary = require("cloudinary").v2;
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+require("dotenv").config();
+
+// Cloudinary config
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const cloudStorage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "brainy-avatar",
+    format: async (req, file) => "png",
+    public_id: (req, file) => file.filename,
+  },
+});
+
+const cloudUpload = multer({ storage: cloudStorage });
+
+// Upload avatar
+users.post("/users/upload", cloudUpload.single("avatar"), async (req, res) => {
+  try {
+    res.status(200).send({
+      statusCode: 200,
+      message: "Avatar uploaded successfully",
+      avatar: req.file.path,
+    });
+  } catch (error) {
+    res.status(500).send({
+      statusCode: 500,
+      message: "Internal server error",
+    });
+  }
+});
+
 // Get all users
 users.get("/users", async (req, res) => {
   try {
