@@ -1,0 +1,32 @@
+GET http://localhost:5050/users
+
+####
+
+POST http://localhost:5050/users/create
+Content-type: application/json
+
+{
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "test@test.it",
+    "password": "test",
+    "avatar": "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
+    "birthday": "10-04-1900"
+}
+
+####
+
+GET http://localhost:5050/users/653e1e6bead0bdb52e2ebd8c
+
+####
+
+PATCH http://localhost:5050/users/update/653e1e6bead0bdb52e2ebd8c
+Content-type: application/json
+
+{
+    "firstName": "Johnasdasdasdasd"
+}
+
+####
+
+DELETE http://localhost:5050/users/delete/653e1e6bead0bdb52e2ebd8c
