@@ -1,4 +1,4 @@
-GET http://localhost:5050/users
+GET http://localhost:5050/posts
 
 ####
 
@@ -8,8 +8,8 @@ Content-type: application/json
 {
     "firstName": "John",
     "lastName": "Doe",
-    "email": "test@test.it",
-    "password": "test",
+    "email": "12@test.it",
+    "password": "test12",
     "avatar": "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
     "birthday": "10-04-1900"
 }
@@ -36,7 +36,7 @@ POST http://localhost:5050/login
 Content-type: application/json
 
 {
-    "email": "test@test.it",
-    "password": "test"
+    "email": "12@test.it",
+    "password": "test12"
 }
 

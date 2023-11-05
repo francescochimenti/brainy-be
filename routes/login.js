@@ -9,7 +9,7 @@ login.post("/login", async (req, res) => {
   const user = await UserModel.findOne({ email: req.body.email });
 
   if (!user) {
-    return resizeBy.status(404).send({
+    return res.status(404).send({
       message: "User not found",
       statusCode: 404,
     });

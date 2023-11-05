@@ -27,7 +27,7 @@ const cloudStorage = new CloudinaryStorage({
 const cloudUpload = multer({ storage: cloudStorage });
 
 // Upload avatar
-users.post("/users/upload", cloudUpload.single("avatar"), async (req, res) => {
+users.post("/users/upload", cloudUpload.single("cover"), async (req, res) => {
   try {
     res.status(200).send({
       statusCode: 200,

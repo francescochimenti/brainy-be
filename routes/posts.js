@@ -4,11 +4,11 @@ const PostModel = require("../models/post");
 
 // Get all posts
 posts.get("/posts", async (req, res) => {
-  const { page = 1, pageSize = 6 } = req.query;
+  const { page = 1, pageSize = 50 } = req.query;
 
   try {
     const posts = await PostModel.find()
-      .populate("author", "firstName lastName email avatar birthday")
+      .populate("author")
       .limit(pageSize)
       .skip((page - 1) * pageSize);
 
@@ -21,6 +21,29 @@ posts.get("/posts", async (req, res) => {
       totalPosts,
       message: "Posts fetched successfully",
       posts,
+    });
+  } catch (e) {
+    res.status(500).send({
+      statusCode: 500,
+      message: "Error interno del server",
+    });
+  }
+});
+
+// Create a post
+
+posts.post("/posts/create", async (req, res) => {
+  const newPost = new PostModel({
+    content: req.body.content,
+    author: req.body.author,
+  });
+
+  try {
+    const post = await newPost.save();
+    res.status(201).send({
+      statusCode: 201,
+      message: "Post creado exitosamente",
+      post,
     });
   } catch (e) {
     res.status(500).send({
