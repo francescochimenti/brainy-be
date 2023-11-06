@@ -53,4 +53,60 @@ posts.post("/posts/create", async (req, res) => {
   }
 });
 
+// Get a post by id
+
+posts.get("/posts/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const post = await PostModel.findById(id).populate("author");
+
+    if (!post) {
+      return res.status(404).send({
+        statusCode: 404,
+        message: "Post no encontrado",
+      });
+    }
+
+    res.status(200).send({
+      statusCode: 200,
+      message: "Post encontrado",
+      post,
+    });
+  } catch (e) {
+    res.status(500).send({
+      statusCode: 500,
+      message: "Error interno del server",
+    });
+  }
+});
+
+// Delete a post by id
+
+posts.delete("/posts/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const post = await PostModel.findByIdAndDelete(id);
+
+    if (!post) {
+      return res.status(404).send({
+        statusCode: 404,
+        message: "Post no encontrado",
+      });
+    }
+
+    res.status(200).send({
+      statusCode: 200,
+      message: "Post eliminado exitosamente",
+      post,
+    });
+  } catch (e) {
+    res.status(500).send({
+      statusCode: 500,
+      message: "Error interno del server",
+    });
+  }
+});
+
 module.exports = posts;
