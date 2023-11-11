@@ -11,6 +11,10 @@ const postSchema = new mongoose.Schema(
       ref: "userModel",
       required: true,
     },
+    likeCount: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true, strict: true }
 );

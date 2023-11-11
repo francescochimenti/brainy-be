@@ -2,6 +2,10 @@ GET http://localhost:5050/posts
 
 ####
 
+GET http://localhost:5050/posts/user/6543f2fbdf363f5d8f6eef8d
+
+####
+
 POST http://localhost:5050/users/create
 Content-type: application/json
 

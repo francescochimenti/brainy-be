@@ -25,7 +25,7 @@ posts.get("/posts", async (req, res) => {
   } catch (e) {
     res.status(500).send({
       statusCode: 500,
-      message: "Error interno del server",
+      message: "Internal server error",
     });
   }
 });
@@ -42,13 +42,13 @@ posts.post("/posts/create", async (req, res) => {
     const post = await newPost.save();
     res.status(201).send({
       statusCode: 201,
-      message: "Post creado exitosamente",
+      message: "Post created successfully",
       post,
     });
   } catch (e) {
     res.status(500).send({
       statusCode: 500,
-      message: "Error interno del server",
+      message: "Internal server error",
     });
   }
 });
@@ -64,19 +64,47 @@ posts.get("/posts/:id", async (req, res) => {
     if (!post) {
       return res.status(404).send({
         statusCode: 404,
-        message: "Post no encontrado",
+        message: "No posts found",
       });
     }
 
     res.status(200).send({
       statusCode: 200,
-      message: "Post encontrado",
+      message: "Post fetched successfully",
       post,
     });
   } catch (e) {
     res.status(500).send({
       statusCode: 500,
-      message: "Error interno del server",
+      message: "Internal server error",
+    });
+  }
+});
+
+//Get a post by user id
+
+posts.get("/posts/user/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const posts = await PostModel.find({ author: id }).populate("author");
+
+    if (!posts) {
+      return res.status(404).send({
+        statusCode: 404,
+        message: "No posts found",
+      });
+    }
+
+    res.status(200).send({
+      statusCode: 200,
+      message: "Posts fetched successfully",
+      posts,
+    });
+  } catch (e) {
+    res.status(500).send({
+      statusCode: 500,
+      message: "Internal server error",
     });
   }
 });
@@ -92,19 +120,19 @@ posts.delete("/posts/:id", async (req, res) => {
     if (!post) {
       return res.status(404).send({
         statusCode: 404,
-        message: "Post no encontrado",
+        message: "No posts found",
       });
     }
 
     res.status(200).send({
       statusCode: 200,
-      message: "Post eliminado exitosamente",
+      message: "Post deleted successfully",
       post,
     });
   } catch (e) {
     res.status(500).send({
       statusCode: 500,
-      message: "Error interno del server",
+      message: "Internal server error",
     });
   }
 });
