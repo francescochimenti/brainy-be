@@ -19,7 +19,10 @@ posts.post("/posts/:postId/like/:userId", async (req, res) => {
     const newLike = new LikeModel({ post: postId, user: userId });
     await newLike.save();
 
-    await PostModel.findByIdAndUpdate(postId, { $inc: { likeCount: 1 } });
+    await PostModel.findByIdAndUpdate(postId, {
+      $inc: { likeCount: 1 },
+      $addToSet: { likes: userId },
+    });
 
     res.status(201).send({ message: "Like added successfully" });
   } catch (error) {
@@ -37,32 +40,13 @@ posts.delete("/posts/:postId/delete-like/:userId", async (req, res) => {
       user: userId,
     });
     if (like) {
-      await PostModel.findByIdAndUpdate(postId, { $inc: { likeCount: -1 } });
+      await PostModel.findByIdAndUpdate(postId, {
+        $inc: { likeCount: -1 },
+        $pull: { likes: userId },
+      });
     }
 
     res.status(200).send({ message: "Like removed successfully" });
-  } catch (error) {
-    res.status(500).send({ message: "Internal server error" });
-  }
-});
-
-// Get by popularity and date the posts of the week
-posts.get("/posts/popular-weekly", async (req, res) => {
-  const oneWeekAgo = new Date();
-  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-
-  try {
-    const popularPosts = await PostModel.find({
-      createdAt: { $gte: oneWeekAgo },
-    })
-      .sort({ likeCount: -1 })
-      .limit(4)
-      .exec();
-
-    res.status(200).send({
-      message: "Weekly popular posts fetched successfully",
-      popularPosts,
-    });
   } catch (error) {
     res.status(500).send({ message: "Internal server error" });
   }

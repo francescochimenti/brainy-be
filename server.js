@@ -7,6 +7,7 @@ const logger = require("./middlewares/logger");
 const usersRoute = require("./routes/users");
 const loginRoute = require("./routes/login");
 const postsRoute = require("./routes/posts");
+const likesRoute = require("./routes/likes");
 
 const PORT = 5050;
 const app = express();
@@ -18,6 +19,7 @@ app.use(logger);
 app.use("/", usersRoute);
 app.use("/", loginRoute);
 app.use("/", postsRoute);
+app.use("/", likesRoute);
 
 // Connect to DB
 mongoose.connect(process.env.SERVER_URL, {

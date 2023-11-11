@@ -44,3 +44,5 @@ Content-type: application/json
     "password": "test12"
 }
 
+####
+GET http://localhost:5050/posts/popular

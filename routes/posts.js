@@ -30,8 +30,26 @@ posts.get("/posts", async (req, res) => {
   }
 });
 
-// Create a post
+// Get by popularity and date the posts of the week
+posts.get("/posts/popular", async (req, res) => {
+  try {
+    const posts = await PostModel.find()
+      .populate("author")
+      .sort({ likeCount: -1 })
+      .limit(4)
+      .exec();
 
+    res.status(200).send({
+      message: "Popular posts fetched successfully",
+      posts,
+    });
+  } catch (error) {
+    console.error("Error in /posts/popular:", error);
+    res.status(500).send({ message: "Internal server error" });
+  }
+});
+
+// Create a post
 posts.post("/posts/create", async (req, res) => {
   const newPost = new PostModel({
     content: req.body.content,
