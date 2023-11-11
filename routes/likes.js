@@ -5,8 +5,7 @@ const LikeModel = require("../models/like");
 
 // Post a like
 posts.post("/posts/:postId/like/:userId", async (req, res) => {
-  const { postId } = req.params;
-  const { userId } = req.params;
+  const { postId, userId } = req.params;
 
   try {
     const existingLike = await LikeModel.findOne({
@@ -29,9 +28,8 @@ posts.post("/posts/:postId/like/:userId", async (req, res) => {
 });
 
 // Delete a like
-posts.delete("/posts/:postId/like", async (req, res) => {
-  const { postId } = req.params;
-  const userId = req.body.userId;
+posts.delete("/posts/:postId/delete-like/:userId", async (req, res) => {
+  const { postId, userId } = req.params;
 
   try {
     const like = await LikeModel.findOneAndDelete({
