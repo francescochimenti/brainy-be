@@ -4,9 +4,9 @@ const PostModel = require("../models/post");
 const LikeModel = require("../models/like");
 
 // Post a like
-posts.post("/posts/:postId/like", async (req, res) => {
+posts.post("/posts/:postId/like/:userId", async (req, res) => {
   const { postId } = req.params;
-  const userId = req.body.userId;
+  const { userId } = req.params;
 
   try {
     const existingLike = await LikeModel.findOne({
