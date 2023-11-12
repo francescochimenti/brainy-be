@@ -49,6 +49,27 @@ posts.get("/posts/popular", async (req, res) => {
   }
 });
 
+// Get user post by popularity
+posts.get("/posts/user/:id/popular", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const posts = await PostModel.find({ author: id })
+      .populate("author")
+      .sort({ likeCount: -1 })
+      .limit(3)
+      .exec();
+
+    res.status(200).send({
+      message: "Popular user posts fetched successfully",
+      posts,
+    });
+  } catch (error) {
+    console.error("Error in /posts/popular:", error);
+    res.status(500).send({ message: "Internal server error" });
+  }
+});
+
 // Create a post
 posts.post("/posts/create", async (req, res) => {
   const newPost = new PostModel({
@@ -127,8 +148,39 @@ posts.get("/posts/user/:id", async (req, res) => {
   }
 });
 
-// Delete a post by id
+//Update a post
+posts.patch("/posts/:id", async (req, res) => {
+  const { id } = req.params;
+  const { content } = req.body;
 
+  try {
+    const post = await PostModel.findByIdAndUpdate(
+      id,
+      { content },
+      { new: true }
+    );
+
+    if (!post) {
+      return res.status(404).send({
+        statusCode: 404,
+        message: "No posts found",
+      });
+    }
+
+    res.status(200).send({
+      statusCode: 200,
+      message: "Post updated successfully",
+      post,
+    });
+  } catch (e) {
+    res.status(500).send({
+      statusCode: 500,
+      message: "Internal server error",
+    });
+  }
+});
+
+// Delete a post by id
 posts.delete("/posts/:id", async (req, res) => {
   const { id } = req.params;
 

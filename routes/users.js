@@ -89,6 +89,7 @@ users.post("/users/create", async (req, res) => {
     password: hashedPassword,
     birthday: req.body.birthday,
     avatar: req.body.avatar,
+    role: req.body.role,
   });
 
   try {
