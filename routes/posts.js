@@ -121,7 +121,6 @@ posts.get("/posts/:id", async (req, res) => {
 });
 
 //Get a post by user id
-
 posts.get("/posts/user/:id", async (req, res) => {
   const { id } = req.params;
 
