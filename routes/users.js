@@ -1,6 +1,7 @@
 const express = require("express");
 const users = express.Router();
 const UserModel = require("../models/user");
+const PostModel = require("../models/post");
 const bcrypt = require("bcrypt");
 
 const multer = require("multer");
@@ -129,6 +130,7 @@ users.patch("/users/update/:id", async (req, res) => {
 // Delete a user
 users.delete("/users/delete/:id", async (req, res) => {
   try {
+    await PostModel.deleteMany({ author: id });
     const user = await UserModel.findByIdAndDelete(req.params.id);
     res.status(200).send({
       statusCode: 200,
