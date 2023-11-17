@@ -130,7 +130,7 @@ users.patch("/users/update/:id", async (req, res) => {
 // Delete a user
 users.delete("/users/delete/:id", async (req, res) => {
   try {
-    await PostModel.deleteMany({ author: id });
+    await PostModel.deleteMany({ author: req.params.id });
     const user = await UserModel.findByIdAndDelete(req.params.id);
     res.status(200).send({
       statusCode: 200,
