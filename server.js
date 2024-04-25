@@ -1,13 +1,14 @@
-const express = require("express");
-const mongoose = require("mongoose");
-require("dotenv").config();
-const cors = require("cors");
-const logger = require("./middlewares/logger");
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
+import dotenv from "dotenv";
+dotenv.config();
 
-const usersRoute = require("./routes/users");
-const loginRoute = require("./routes/login");
-const postsRoute = require("./routes/posts");
-const likesRoute = require("./routes/likes");
+import logger from "./middlewares/logger.js";
+import loginRoute from "./routes/login.js";
+import usersRoute from "./routes/users.js";
+import postsRoute from "./routes/posts.js";
+import likesRoute from "./routes/likes.js";
 
 const PORT = 5050;
 const app = express();

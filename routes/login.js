@@ -1,9 +1,10 @@
-const express = require("express");
+import express from "express";
+import bcrypt from "bcrypt";
+import UserModel from "../models/user.js";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 const login = express.Router();
-const bcrypt = require("bcrypt");
-const UserModel = require("../models/user");
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
 
 login.post("/login", async (req, res) => {
   const user = await UserModel.findOne({ email: req.body.email });
@@ -45,4 +46,4 @@ login.post("/login", async (req, res) => {
   });
 });
 
-module.exports = login;
+export default login;
